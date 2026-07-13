@@ -15,9 +15,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private final RepositoryUtilisateur repositoryUtilisateur;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Utilisateur user = repositoryUtilisateur.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Utilisateur non trouvé avec le pseudo: " + username));
+    public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
+        Utilisateur user = repositoryUtilisateur.findByUsername(usernameOrEmail)
+                .or(() -> repositoryUtilisateur.findByEmail(usernameOrEmail))
+                .orElseThrow(() -> new UsernameNotFoundException("Utilisateur non trouvé avec le pseudo ou email: " + usernameOrEmail));
         return new CustomUserDetails(user);
     }
 

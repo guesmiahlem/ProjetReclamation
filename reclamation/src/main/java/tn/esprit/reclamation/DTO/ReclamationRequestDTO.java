@@ -13,4 +13,7 @@ public class ReclamationRequestDTO {
     private String description;
     private CategorieReclamation categorie;
     private Long utilisateurId;
+
+
+
 }

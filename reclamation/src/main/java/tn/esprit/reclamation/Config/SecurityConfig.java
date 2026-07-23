@@ -47,29 +47,7 @@ public class SecurityConfig {
       .formLogin(formLogin -> formLogin.disable())
       .authorizeHttpRequests(auth -> auth
         .requestMatchers("/api/auth/**").permitAll()
-        //.requestMatchers("/error").permitAll()
-        //.requestMatchers("/Store/**").permitAll()
-        //.requestMatchers("/category/**").permitAll()
-        .requestMatchers("/Product/**").permitAll()
-        .requestMatchers("/api/recommendations/**").permitAll()
-        //.requestMatchers("/Stock/**").permitAll()
-        .requestMatchers("/uploads/**").permitAll()
-        .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/sponsorship-requests/public/**").permitAll()
-        .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/upload").authenticated()
-        .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/events/**", "/api/live-sessions/**").permitAll()
-        // Customers buy tickets: POST .../events/{id}/tickets — must be before the broad POST /api/events/** rule for event creation
-        .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/events/*/tickets").authenticated()
-        .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/events/**").hasAnyAuthority("ROLE_COMPANY", "ROLE_EXPERT", "ROLE_ADMIN", "ROLE_SELLER")
-        .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/live-sessions").hasAnyAuthority("ROLE_SELLER", "ROLE_COMPANY", "ROLE_EXPERT", "ROLE_ADMIN")
-        .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/live-sessions/*/chat").authenticated()
-        .requestMatchers(org.springframework.http.HttpMethod.PUT, "/api/events/**").hasAnyAuthority("ROLE_COMPANY", "ROLE_EXPERT", "ROLE_ADMIN", "ROLE_SELLER")
-        .requestMatchers(org.springframework.http.HttpMethod.PUT, "/api/live-sessions/**").hasAnyAuthority("ROLE_SELLER", "ROLE_COMPANY", "ROLE_EXPERT", "ROLE_ADMIN")
-        .requestMatchers(org.springframework.http.HttpMethod.DELETE, "/api/events/**").hasAnyAuthority("ROLE_COMPANY", "ROLE_EXPERT", "ROLE_ADMIN", "ROLE_SELLER")
-        .requestMatchers(org.springframework.http.HttpMethod.DELETE, "/api/live-sessions/**").hasAnyAuthority("ROLE_SELLER", "ROLE_COMPANY", "ROLE_EXPERT", "ROLE_ADMIN")
-        .requestMatchers("/api/cart/**").authenticated()
-        .requestMatchers("/api/orders/**").authenticated()
-        .requestMatchers("/api/payments/**").authenticated()
-        .requestMatchers("/api/deliveries/**").authenticated()
+
         .requestMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")
         .anyRequest().authenticated())
       .authenticationProvider(authenticationProvider())
@@ -79,7 +57,6 @@ public class SecurityConfig {
 
   @Bean
   public AuthenticationProvider authenticationProvider() {
-    // ✅ Spring Security 7.1 : UserDetailsService en constructeur
     DaoAuthenticationProvider authProvider =
             new DaoAuthenticationProvider(userDetailsService);
     authProvider.setPasswordEncoder(passwordEncoder());

@@ -81,6 +81,7 @@ public class AuthController {
         setJwtCookie(response, token);
         
         return ResponseEntity.ok(AuthResponse.builder()
+                .token(token)
                 .name(savedUser.getUsername())
                 .email(savedUser.getEmail())
                 .role(savedUser.getRole().name())
@@ -110,6 +111,7 @@ public class AuthController {
         setJwtCookie(response, token);
         
         return ResponseEntity.ok(AuthResponse.builder()
+                .token(token)
                 .name(user.getUsername())
                 .email(user.getEmail())
                 .role(user.getRole().name())

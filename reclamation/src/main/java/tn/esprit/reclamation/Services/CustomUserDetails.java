@@ -1,10 +1,8 @@
 package tn.esprit.reclamation.Services;
 
-import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
 import tn.esprit.reclamation.Entity.Utilisateur;
 
 import java.util.Collection;

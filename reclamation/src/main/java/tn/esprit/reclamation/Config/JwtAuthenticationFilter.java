@@ -28,8 +28,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getServletPath();
+        if (path == null || path.isEmpty()) {
+            path = request.getRequestURI();
+        }
         // Never enforce JWT on auth endpoints (login/register/reset/social login).
-        return path != null && path.startsWith("/api/auth/");
+        return path.startsWith("/api/auth/") || path.startsWith("/api/auth");
     }
 
     @Override
@@ -37,6 +40,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull HttpServletRequest request,
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain) throws ServletException, IOException {
+
+        // ✅ Defense-in-depth: always skip JWT processing for public auth endpoints
+        // (Handles edge case where getServletPath() returns "" in Spring Boot 3.5+)
+        String requestPath = request.getRequestURI();
+        if (requestPath != null && requestPath.startsWith("/api/auth")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         String jwt = null;
         final String userEmail;

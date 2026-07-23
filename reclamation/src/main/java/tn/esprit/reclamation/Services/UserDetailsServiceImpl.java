@@ -12,7 +12,7 @@ import tn.esprit.reclamation.Repository.RepositoryUtilisateur;
 @AllArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private final RepositoryUtilisateur repositoryUtilisateur;
+    private  RepositoryUtilisateur repositoryUtilisateur;
 
     @Override
     public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
